@@ -6,7 +6,7 @@
 
   <groupId>es.uma.lcc.caesium</groupId>
   <artifactId>ea</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
 
   <name>ea</name>
   <url>http://bio4res.lcc.uma.es</url>
