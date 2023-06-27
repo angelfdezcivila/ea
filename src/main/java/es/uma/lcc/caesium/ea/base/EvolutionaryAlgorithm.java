@@ -8,7 +8,6 @@ import java.util.Set;
 import es.uma.lcc.caesium.ea.config.EAConfiguration;
 import es.uma.lcc.caesium.ea.fitness.ObjectiveFunction;
 import es.uma.lcc.caesium.ea.operator.migration.Topology;
-import es.uma.lcc.caesium.ea.operator.migration.TopologyFactory;
 import es.uma.lcc.caesium.ea.statistics.EAStatistics;
 import es.uma.lcc.caesium.ea.util.EAUtil;
 
@@ -131,7 +130,7 @@ public class EvolutionaryAlgorithm {
 		inactive = new LinkedList<Island>();
 		
 		if ((topology == null) || (topology.isRegenerable())) {
-			topology = TopologyFactory.create(conf.getTopology(), conf.getTopologyParameters());
+			topology = conf.getTopologyFactory().create(conf.getTopology(), conf.getTopologyParameters());
 			for (Island i: islands) {
 				i.resetConnections();
 				Set<Integer> links = topology.get(i.getID());
