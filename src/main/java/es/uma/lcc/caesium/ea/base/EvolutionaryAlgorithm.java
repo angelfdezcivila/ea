@@ -184,6 +184,20 @@ public class EvolutionaryAlgorithm {
 		while (stepUp());
 	}
 	
+	
+	/**
+	 * Runs the EA using a certain seed of the RNG. The previously existing seed is kept and restored afterwards,
+	 * so invoking this method does not affect subsequent invocations to the {@link run()} method, that will
+	 * continue using the seed in sequence as if this invocation had not happened.
+	 * @param s the seed to use in this run of the EA
+	 */
+	public void run(long s) {
+		long currentSeed = seed;
+		seed = s;
+		run();
+		seed = currentSeed;
+	}
+	
 	/**
 	 * Performs all runs of the EA indicated in the configuration,
 	 * starting with the seed indicated in such configuration.
