@@ -6,7 +6,7 @@ import es.uma.lcc.caesium.ea.fitness.ContinuousObjectiveFunction;
 import es.uma.lcc.caesium.ea.fitness.OptimizationSense;
 
 /**
- * Spehere function
+ * Sphere function
  * @author ccottap
  * @version 1.0
  *
