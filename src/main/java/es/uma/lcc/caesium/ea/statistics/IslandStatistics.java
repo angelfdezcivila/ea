@@ -164,7 +164,11 @@ public class IslandStatistics extends Statistics {
 		return jsondata;
 	}
 	
-
+	@Override
+	public Individual getCurrentBest() {
+		return currentSols.get(currentSols.size()-1).individual();
+	}
+	
 	@Override
 	public Individual getBest(int i) {
 		List<IndividualRecord> data = sols.get(i);

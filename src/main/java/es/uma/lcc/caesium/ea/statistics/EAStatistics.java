@@ -135,6 +135,18 @@ public class EAStatistics extends Statistics {
 	public double getTime(int i) {
 		return runtime.get(i);
 	}
+	
+	@Override
+	public Individual getCurrentBest() {
+		int n = islands.size();
+		Individual best = islands.get(0).getStatistics().getCurrentBest();
+		for (int j=1; j<n; j++) {
+			Individual cand = islands.get(j).getStatistics().getCurrentBest();
+			if (comparator.compare(cand, best) < 0)
+				best = cand;
+		}
+		return best;
+	}
 
 	@Override
 	public Individual getBest(int i) {
@@ -147,6 +159,7 @@ public class EAStatistics extends Statistics {
 		}
 		return best;
 	}
+	
 
 	@Override
 	public Individual getBest() {
@@ -159,5 +172,6 @@ public class EAStatistics extends Statistics {
 		}
 		return best;
 	}
+	
 	
 }

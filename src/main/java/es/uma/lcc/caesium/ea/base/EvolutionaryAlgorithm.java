@@ -66,6 +66,11 @@ public class EvolutionaryAlgorithm {
 	 */
 	private EAConfiguration conf;
 	
+	/**
+	 * level of verbosity of the execution.
+	 */
+	private int verbosityLevel = 0;
+	
 		
 	
 	/**
@@ -88,6 +93,22 @@ public class EvolutionaryAlgorithm {
 		conf.getTopologyParameters().add(0, Integer.toString(islands.size()));
 	}
 	
+	/**
+	 * Returns the verbosity level
+	 * @return the verbosity level
+	 */
+	public int getVerbosityLevel() {
+		return verbosityLevel;
+	}
+
+	/**
+	 * Sets the verbosity level (0 = no verbosity; larger values imply larger verbosity)
+	 * @param level the verbosity level to set
+	 */
+	public void setVerbosityLevel(int level) {
+		verbosityLevel = level;
+	}
+
 	/**
 	 * Returns the EA statistics
 	 * @return the EA statistics
@@ -165,6 +186,9 @@ public class EvolutionaryAlgorithm {
 			else 
 				k++;
 		}
+		
+		if (verbosityLevel > 0)
+			System.out.println(obj.getEvals() + " : " + stats.getCurrentBest().getFitness());
 
 		if (active.size() == 0) {
 			stats.closeRun();
