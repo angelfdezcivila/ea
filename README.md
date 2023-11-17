@@ -1,6 +1,6 @@
 # Evolutionary Algorithm
 
-An Evolutionary Algorithm Library
+A flexible and expandable library for evolutionary algorithms
 
 Carlos Cotta, 2023
 
@@ -28,5 +28,6 @@ If you are using Maven, the following dependency can be added to your project:
 
 The library has been used in the following projects (non-exhaustive list):
 
-* [ea-model-byzantine](https://github.com/Bio4Res/ea-model-byzantine): Evolutionary algorithms with Byzantine failures in fitness evaluation 
+* [ea-model-byzantine](https://github.com/Bio4Res/ea-model-byzantine): Evolutionary algorithms with Byzantine failures in fitness evaluation
+* [pedestrian-evacuation-optimization](https://github.com/Bio4Res/pedestrian-evacuation-optimization): Optimization of crowd evacuation in case of emergency
 
