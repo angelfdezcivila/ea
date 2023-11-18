@@ -8,7 +8,7 @@
             "offspring" : 99,
             "maxevals" : 100000,
             "initialization" : {
-                "name": "bitstring",
+                "name": "bitstring"
             },
             "selection" : {
                 "name" : "tournament",
@@ -23,9 +23,9 @@
                     "name" : "bitflip",
                     "parameters" : ["0.6321"]
                 }
-            ]
+            ],
             "replacement" : {
-                "name" : "comma",
+                "name" : "comma"
             }
         }
     ]
