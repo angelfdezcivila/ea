@@ -46,7 +46,7 @@ public class OrderCrossover extends RecombinationOperator {
 			if (EAUtil.random(2)>0) {
 				int v = (int)father.getGene(i);
 				offspring.setGene(i, v);
-				elements.remove(v);
+				elements.remove(Integer.valueOf(v));
 			}
 			else
 				positions.add(i);
