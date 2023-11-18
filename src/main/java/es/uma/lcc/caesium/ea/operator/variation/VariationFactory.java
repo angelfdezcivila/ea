@@ -10,6 +10,7 @@ import es.uma.lcc.caesium.ea.operator.variation.initialization.discrete.RandomSe
 import es.uma.lcc.caesium.ea.operator.variation.mutation.BinomialMutation;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.continuous.GaussianMutation;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.BitFlip;
+import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.RandomSubstitution;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Flip;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Reverse;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Swap;
@@ -68,6 +69,9 @@ public class VariationFactory {
 			break;
 		case "BITFLIP":
 			op = new BitFlip(pars);
+			break;
+		case "RANDOMSUBSTITUTION":
+			op = new RandomSubstitution(pars);
 			break;
 		case "GAUSSIAN":
 			op = new GaussianMutation(pars);
