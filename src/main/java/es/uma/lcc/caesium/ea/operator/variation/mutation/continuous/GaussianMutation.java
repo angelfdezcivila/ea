@@ -11,7 +11,7 @@ import es.uma.lcc.caesium.ea.util.EAUtil;
 /**
  * Gaussian mutation
  * @author ccottap
- * @version 1.2
+ * @version 1.3
  *
  */
 public class GaussianMutation extends MutationOperator {
@@ -20,6 +20,11 @@ public class GaussianMutation extends MutationOperator {
 	 * as a percentage of the value of the variable.
 	 */
 	private double stepsize;
+	/**
+	 * This flag controls whether in case of exceeding the upper/lower limit of a variable,
+	 * its value is saturated at that value or wraps around to the other end of the range.
+	 */
+	private boolean wrap = false;
 	
 	/**
 	 * Creates the operator. 
@@ -31,6 +36,8 @@ public class GaussianMutation extends MutationOperator {
 			stepsize = Double.parseDouble(pars.get(1));
 		else
 			stepsize = 1.0;
+		if (pars.size()>2)
+			wrap = Boolean.parseBoolean(pars.get(2));
 	}
 
 	@Override
@@ -42,15 +49,26 @@ public class GaussianMutation extends MutationOperator {
 		int pos = EAUtil.random(g.length());
 		double v = (double)g.getGene(pos);
 		double val = v*(1.0+stepsize*EAUtil.nrandom());
-		g.setGene(pos, Math.min(p.getMaxVal(pos), Math.max(p.getMinVal(pos), val)));
-
+		if (!wrap)
+			val = Math.min(p.getMaxVal(pos), Math.max(p.getMinVal(pos), val));
+		else {
+			double minV = p.getMinVal(pos);
+			double maxV = p.getMaxVal(pos);
+			while (val < minV) {
+				val = maxV - (minV - val);
+			}
+			while (val > maxV) {
+				val = minV + (val - maxV);
+			}
+		}
+		g.setGene(pos, val);
 		ind.touch();
 		return ind;
 	}
 
 	@Override
 	public String toString() {
-		return "GaussianMutation(p=" + prob + ")";
+		return "GaussianMutation(p=" + prob + ", " + wrap + ")";
 	}
 
 }

@@ -17,7 +17,7 @@ public class TopologyFactory {
 	 * @param parameters parameters of the topology. There is at least one parameter (the 1st one): the number of islands
 	 * @return the topology created
 	 */
-	public static Topology create (String name, List<String> parameters) {
+	public Topology create (String name, List<String> parameters) {
 		int n = Integer.parseInt(parameters.get(0));
 		Topology topology = new Topology(n);
 		

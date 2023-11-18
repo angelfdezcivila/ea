@@ -61,10 +61,17 @@ public abstract class Statistics {
 	 */
 	public abstract void closeRun();
 	
+	
+	/**
+	 * Returns the best solution found so far in the current run
+	 * @return the best solution found so far in the current run
+	 */
+	public abstract Individual getCurrentBest();
+	
 	/**
 	 * Returns the best solution of a given run
 	 * @param i the index of the run
-	 * @return the best individual inthe i-th run
+	 * @return the best individual in the i-th run
 	 */
 	public abstract Individual getBest(int i);
 

@@ -8,7 +8,6 @@ import java.util.Set;
 import es.uma.lcc.caesium.ea.config.EAConfiguration;
 import es.uma.lcc.caesium.ea.fitness.ObjectiveFunction;
 import es.uma.lcc.caesium.ea.operator.migration.Topology;
-import es.uma.lcc.caesium.ea.operator.migration.TopologyFactory;
 import es.uma.lcc.caesium.ea.statistics.EAStatistics;
 import es.uma.lcc.caesium.ea.util.EAUtil;
 
@@ -67,6 +66,11 @@ public class EvolutionaryAlgorithm {
 	 */
 	private EAConfiguration conf;
 	
+	/**
+	 * level of verbosity of the execution.
+	 */
+	private int verbosityLevel = 0;
+	
 		
 	
 	/**
@@ -89,6 +93,22 @@ public class EvolutionaryAlgorithm {
 		conf.getTopologyParameters().add(0, Integer.toString(islands.size()));
 	}
 	
+	/**
+	 * Returns the verbosity level
+	 * @return the verbosity level
+	 */
+	public int getVerbosityLevel() {
+		return verbosityLevel;
+	}
+
+	/**
+	 * Sets the verbosity level (0 = no verbosity; larger values imply larger verbosity)
+	 * @param level the verbosity level to set
+	 */
+	public void setVerbosityLevel(int level) {
+		verbosityLevel = level;
+	}
+
 	/**
 	 * Returns the EA statistics
 	 * @return the EA statistics
@@ -131,7 +151,7 @@ public class EvolutionaryAlgorithm {
 		inactive = new LinkedList<Island>();
 		
 		if ((topology == null) || (topology.isRegenerable())) {
-			topology = TopologyFactory.create(conf.getTopology(), conf.getTopologyParameters());
+			topology = conf.getTopologyFactory().create(conf.getTopology(), conf.getTopologyParameters());
 			for (Island i: islands) {
 				i.resetConnections();
 				Set<Integer> links = topology.get(i.getID());
@@ -166,6 +186,9 @@ public class EvolutionaryAlgorithm {
 			else 
 				k++;
 		}
+		
+		if (verbosityLevel > 0)
+			System.out.println(obj.getEvals() + " : " + stats.getCurrentBest().getFitness());
 
 		if (active.size() == 0) {
 			stats.closeRun();
@@ -183,6 +206,20 @@ public class EvolutionaryAlgorithm {
 	public void run() {
 		initEA();
 		while (stepUp());
+	}
+	
+	
+	/**
+	 * Runs the EA using a certain seed of the RNG. The previously existing seed is kept and restored afterwards,
+	 * so invoking this method does not affect subsequent invocations to the {@link run()} method, that will
+	 * continue using the seed in sequence as if this invocation had not happened.
+	 * @param s the seed to use in this run of the EA
+	 */
+	public void run(long s) {
+		long currentSeed = seed;
+		seed = s;
+		run();
+		seed = currentSeed;
 	}
 	
 	/**

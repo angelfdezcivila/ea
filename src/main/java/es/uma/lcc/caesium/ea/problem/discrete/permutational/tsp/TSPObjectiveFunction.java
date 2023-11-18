@@ -49,28 +49,11 @@ public class TSPObjectiveFunction extends PermutationalObjectiveFunction {
 	@Override
 	protected double _evaluate(Individual i) {
 		Genotype g = i.getGenome();
-		
-//		if (!check(g)) {
-//			System.out.println(i);
-//			System.exit(1);
-//		}
-		
+				
 		int d = data.getDistance((int)g.getGene(numvars-1), (int)g.getGene(0));
 		for (int j=1; j<numvars; j++)
 			d +=  data.getDistance((int)g.getGene(j-1), (int)g.getGene(j));
 		return (double)d;
 	}
 	
-//	private boolean check(Genotype p) {
-//		boolean[] exists = new boolean[numvars];
-//		for (int i=0; i<numvars; i++)
-//			exists[i] = false;
-//		for (int i=0; i<numvars; i++)
-//			exists[(int)p.getGene(i)] = true;
-//		for (int i=0; i<numvars; i++)
-//			if (!exists[i])
-//				return false;
-//		return true;
-//	}
-
 }

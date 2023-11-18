@@ -7,6 +7,7 @@ import java.util.List;
 import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
+import es.uma.lcc.caesium.ea.operator.migration.TopologyFactory;
 import es.uma.lcc.caesium.ea.operator.replacement.ReplacementFactory;
 import es.uma.lcc.caesium.ea.operator.selection.SelectionFactory;
 import es.uma.lcc.caesium.ea.operator.variation.VariationFactory;
@@ -55,6 +56,10 @@ public class EAConfiguration {
 	 * List of additional non-standard configuration settings globally used in the EA
 	 */
 	private List<OperatorConfiguration> extendedConfiguration;
+	/**
+	 * Factory used to create topologies
+	 */
+	private TopologyFactory tf;
 
 	
 	/**
@@ -103,6 +108,7 @@ public class EAConfiguration {
 				extendedConfiguration.add(IslandConfiguration.processOperator((JsonObject)o));	
 			}
 		}
+		tf = new TopologyFactory();
 	}
 	
 
@@ -136,6 +142,22 @@ public class EAConfiguration {
 		for (IslandConfiguration iconf: iConf) {
 			iconf.setVariationFactory(variationFactory);
 		}
+	}
+	
+	/**
+	 * Sets a new user-defined factory for topologies
+	 * @param topologyFactory the topology factory
+	 */
+	public void setTopologyFactory(TopologyFactory topologyFactory) {
+		this.tf = topologyFactory;
+	}
+	
+	/**
+	 * Returns the factory used for topologies
+	 * @return the topology factory
+	 */
+	public TopologyFactory getTopologyFactory() {
+		return tf;
 	}
 
 	/**

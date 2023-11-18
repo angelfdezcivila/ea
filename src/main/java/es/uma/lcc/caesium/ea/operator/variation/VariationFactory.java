@@ -4,18 +4,22 @@ import java.util.List;
 
 import es.uma.lcc.caesium.ea.operator.variation.initialization.continuous.RandomVector;
 import es.uma.lcc.caesium.ea.operator.variation.initialization.discrete.RandomBitString;
+import es.uma.lcc.caesium.ea.operator.variation.initialization.discrete.RandomIntegerSequence;
 import es.uma.lcc.caesium.ea.operator.variation.initialization.discrete.RandomPermutation;
+import es.uma.lcc.caesium.ea.operator.variation.initialization.discrete.RandomSet;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.BinomialMutation;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.continuous.GaussianMutation;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.BitFlip;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Flip;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Reverse;
 import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.permutation.Swap;
+import es.uma.lcc.caesium.ea.operator.variation.mutation.discrete.set.MutateSetElement;
 import es.uma.lcc.caesium.ea.operator.variation.recombination.continuous.BLX;
 import es.uma.lcc.caesium.ea.operator.variation.recombination.discrete.SinglePointCrossover;
 import es.uma.lcc.caesium.ea.operator.variation.recombination.discrete.UniformCrossover;
 import es.uma.lcc.caesium.ea.operator.variation.recombination.discrete.permutation.OrderCrossover;
 import es.uma.lcc.caesium.ea.operator.variation.recombination.discrete.permutation.UniformCycleCrossover;
+import es.uma.lcc.caesium.ea.operator.variation.recombination.discrete.set.FixedSizeSetRecombination;
 
 /**
  * Factory for variation operators
@@ -53,6 +57,9 @@ public class VariationFactory {
 		case "UCX":
 			op = new UniformCycleCrossover(pars);
 			break;
+		case "FIXEDSET":
+			op = new FixedSizeSetRecombination(pars);
+			break;
 			
 		// Mutation
 		case "BINOMIAL":
@@ -74,6 +81,9 @@ public class VariationFactory {
 		case "FLIP":
 			op = new Flip(pars);
 			break;	
+		case "MUTATESET":
+			op = new MutateSetElement(pars);
+			break;
 			
 						
 		// Initialization
@@ -86,7 +96,12 @@ public class VariationFactory {
 		case "PERMUTATION":
 			op = new RandomPermutation(pars);
 			break;
-			
+		case "RANDOMSEQ":
+			op = new RandomIntegerSequence(pars);
+			break;
+		case "RANDOMSET":
+			op = new RandomSet(pars);
+			break;
 			
 			
 		default:
