@@ -69,14 +69,21 @@ public abstract class SetRecombination extends RecombinationOperator {
 		}
 		
 		int n = cardinality(parents);
-				
 		Genotype offspring = new Genotype(n);
-		for (int i=0; i<n; i++) {
-			int p = EAUtil.random(genes.size());
-			offspring.setGene(i, genes.get(p));
-			genes.remove(p);
+			
+		if (n > genes.size() ) {
+			Genotype g = parents.get(0).getGenome();
+			for (int i=0; i<n; i++) {
+				offspring.setGene(i, g.getGene(i));
+			}
 		}
-
+		else {
+			for (int i=0; i<n; i++) {
+				int p = EAUtil.random(genes.size());
+				offspring.setGene(i, genes.get(p));
+				genes.remove(p);
+			}
+		}
 		
 		Individual ind = new Individual();
 		ind.setGenome(offspring);
