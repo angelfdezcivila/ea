@@ -12,7 +12,7 @@ import es.uma.lcc.caesium.ea.statistics.EAStatistics;
 import es.uma.lcc.caesium.ea.util.EAUtil;
 
 /**
- * Configuration of individual islands in the EA
+ * An evolutionary algorithm with one or more panmictic islands
  * @author ccottap
  * @version 1.3
  */
