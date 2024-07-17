@@ -97,7 +97,7 @@ public class IslandStatistics extends Statistics {
 		if (diversity != null)
 			h = diversity.apply(pop);
 		
-		current.add(new StatsEntry(evals, best.getFitness(), mean, h));
+		current.add(new StatsEntry(evals, best, mean, h));
 
 		if ((currentSols.size()==0) || (comparator.compare(best, last) < 0)) {
 			currentSols.add(new IndividualRecord(evals, best));
@@ -115,23 +115,34 @@ public class IslandStatistics extends Statistics {
 	public JsonObject toJSON(int i) {
 		JsonObject json = new JsonObject();
 		
-		JsonObject jsonstats = new JsonObject();		
+		JsonObject jsonstats = new JsonObject();
 		JsonArray jsonevals = new JsonArray();
 		JsonArray jsonbest = new JsonArray();
 		JsonArray jsonmean = new JsonArray();
 		JsonArray jsondiv = new JsonArray();
+		JsonArray jsonIndividual = new JsonArray();
 		List<StatsEntry> data = stats.get(i);
 		for (StatsEntry s: data) {
 			jsonevals.add(s.evals());
-			jsonbest.add(s.best());
+//			jsonbest.add(s.best());
+			jsonbest.add(s.best().getFitness());
 			jsonmean.add(s.mean());
 			jsondiv.add(s.diversity());
-		}		
+
+			JsonArray jsongenome = new JsonArray();
+			Genotype g = s.best().getGenome();
+			int n = g.length();
+			for (int j=0; j<n; j++)
+				jsongenome.add(g.getGene(j));
+			jsonIndividual.add(jsongenome);
+		}
 		jsonstats.put("evals", jsonevals);
-		jsonstats.put("best", jsonbest);
+//		jsonstats.put("best", jsonbest);
+		jsonstats.put("best fitness", jsonbest);
 		jsonstats.put("mean", jsonmean);
 		jsonstats.put("diversity", jsondiv);
-		json.put("idata", jsonstats);
+		jsonstats.put("genome", jsonIndividual);
+//		json.put("idata", jsonstats);
 		
 		JsonObject jsonsols = new JsonObject();		
 		JsonArray jsonsolsevals = new JsonArray();
@@ -151,7 +162,10 @@ public class IslandStatistics extends Statistics {
 		jsonsols.put("evals", jsonsolsevals);
 		jsonsols.put("fitness", jsonsolsfitness);
 		jsonsols.put("genome", jsonsolsgenome);
-		json.put("isols", jsonsols);		
+//		json.put("isols", jsonsols);
+
+		json.put("genome", jsonIndividual);
+		json.put("fitness", jsonbest);
 		return json;
 	}
 

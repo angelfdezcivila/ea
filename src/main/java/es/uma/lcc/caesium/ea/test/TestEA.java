@@ -39,6 +39,9 @@ public class TestEA {
 	 */
 	public static void main(String[] args) throws FileNotFoundException, JsonException {
 		EAConfiguration conf;
+		for(String a : args){ // Para testear
+			System.out.println("Argumento : " + a);
+		}
 		String problem = (args.length < 1) ? "onemax" : args[0]; 
 		if (args.length < 2)
 			conf = new EAConfiguration();

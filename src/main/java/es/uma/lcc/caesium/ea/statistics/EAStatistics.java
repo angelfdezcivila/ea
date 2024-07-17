@@ -1,10 +1,10 @@
 package es.uma.lcc.caesium.ea.statistics;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import com.github.cliftonlabs.json_simple.JsonArray;
+import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import es.uma.lcc.caesium.ea.base.Individual;
@@ -126,6 +126,72 @@ public class EAStatistics extends Statistics {
 			jsondata.add(toJSON(i));
 		return jsondata;
 	}
+
+	public JsonObject toJSONObject() throws JsonException {
+		JsonObject jsondata = new JsonObject();
+
+		int n = seeds.size();	// Cada run tiene una seed distinta, por lo que el numero de runs equivale al numero de seeds
+		JsonArray[] genomes = new JsonArray[n];
+		JsonArray[] fitnesses = new JsonArray[n];
+		for (int i=0; i<n; i++)
+		{
+			JsonArray jsonRundata = (JsonArray) toJSON(i).get("rundata");
+			JsonObject rundataObject = (JsonObject) jsonRundata.get(0);	// Suponiendo que solo hay una isla
+
+			genomes[i] = (JsonArray) rundataObject.get("genome");
+			fitnesses[i] = (JsonArray) rundataObject.get("fitness");
+		}
+		JsonArray genomesJson = concatArray(genomes);
+		JsonArray fitnessesJson = concatArray(fitnesses);
+
+
+		// Para ordenar y eliminar repetidos en los conjuntos.
+		// Como un map no puede tener dos claves iguales, se eliminan las repetidas.
+		Map<JsonArray, Double> m = sortMap(genomesJson, fitnessesJson);
+		genomesJson = new JsonArray(m.keySet());
+		fitnessesJson = new JsonArray(m.values());
+
+
+		jsondata.put("genome", genomesJson);
+		jsondata.put("fitness", fitnessesJson);
+
+		return jsondata;
+	}
+
+	private Map<JsonArray, Double> sortMap(JsonArray genomesJson, JsonArray fitnessesJson){
+		Map<JsonArray, Double> m = new HashMap<>();
+		for (int i = 0; i < genomesJson.size(); i++){ // genomesJson.size() == fitnessesJson.size()
+			m.put((JsonArray) genomesJson.get(i), (Double) fitnessesJson.get(i));
+		}
+
+		m = m.entrySet()
+				.stream()
+				.sorted(Map.Entry.comparingByValue())
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+						(e1, e2) -> e1, LinkedHashMap::new));
+
+		return m;
+	}
+
+	private JsonArray concatArray(JsonArray... arrs)
+			throws JsonException {
+		JsonArray result = new JsonArray();
+		for (JsonArray arr : arrs) {
+			result.addAll(arr);
+		}
+
+//        Set<Object> set = new HashSet<>(result);
+//		set.stream().sorted((o1, o2) -> {
+//			((JsonObject) o1).get("fitness")
+//		});
+//		result.clear();
+//		result.addAll(set);
+
+		// Hacer que no haya elementos repetidos. Lo suyo sería ordenarlos mediante el fitness e ir comparando a partir de ahí
+
+		return result;
+	}
+
 	
 	/**
 	 * Returns the CPU time of a certain run
