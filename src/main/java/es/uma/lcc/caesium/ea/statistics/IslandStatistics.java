@@ -90,6 +90,8 @@ public class IslandStatistics extends Statistics {
 				best = ind;
 			}
 			mean += ind.getFitness();
+
+			current.add(new StatsEntry(evals, best, mean,0)); // Para añadir a todos los individuos
 		}
 		mean /= l;
 		
@@ -97,7 +99,7 @@ public class IslandStatistics extends Statistics {
 		if (diversity != null)
 			h = diversity.apply(pop);
 		
-		current.add(new StatsEntry(evals, best, mean, h));
+//		current.add(new StatsEntry(evals, best, mean, h)); // Solo es para añadir al mejor
 
 		if ((currentSols.size()==0) || (comparator.compare(best, last) < 0)) {
 			currentSols.add(new IndividualRecord(evals, best));
@@ -117,7 +119,7 @@ public class IslandStatistics extends Statistics {
 		
 		JsonObject jsonstats = new JsonObject();
 		JsonArray jsonevals = new JsonArray();
-		JsonArray jsonbest = new JsonArray();
+		JsonArray jsonfitness = new JsonArray();
 		JsonArray jsonmean = new JsonArray();
 		JsonArray jsondiv = new JsonArray();
 		JsonArray jsonIndividual = new JsonArray();
@@ -125,7 +127,7 @@ public class IslandStatistics extends Statistics {
 		for (StatsEntry s: data) {
 			jsonevals.add(s.evals());
 //			jsonbest.add(s.best());
-			jsonbest.add(s.best().getFitness());
+			jsonfitness.add(s.best().getFitness());
 			jsonmean.add(s.mean());
 			jsondiv.add(s.diversity());
 
@@ -138,7 +140,7 @@ public class IslandStatistics extends Statistics {
 		}
 		jsonstats.put("evals", jsonevals);
 //		jsonstats.put("best", jsonbest);
-		jsonstats.put("best fitness", jsonbest);
+		jsonstats.put("fitness", jsonfitness);
 		jsonstats.put("mean", jsonmean);
 		jsonstats.put("diversity", jsondiv);
 		jsonstats.put("genome", jsonIndividual);
@@ -165,7 +167,7 @@ public class IslandStatistics extends Statistics {
 //		json.put("isols", jsonsols);
 
 		json.put("genome", jsonIndividual);
-		json.put("fitness", jsonbest);
+		json.put("fitness", jsonfitness);
 		return json;
 	}
 
