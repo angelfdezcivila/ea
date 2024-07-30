@@ -83,6 +83,8 @@ public class IslandStatistics extends Statistics {
 		Individual best = pop.get(0);
 		double mean = best.getFitness();
 		int l = pop.size();
+
+		current.add(new StatsEntry(evals, best, mean,0)); // Para añadir al primer individuo
 		
 		for (int i=1; i<l; i++) {
 			Individual ind = pop.get(i);
@@ -91,7 +93,7 @@ public class IslandStatistics extends Statistics {
 			}
 			mean += ind.getFitness();
 
-			current.add(new StatsEntry(evals, best, mean,0)); // Para añadir a todos los individuos
+			current.add(new StatsEntry(evals, ind, mean,0)); // Para añadir a todos los individuos
 		}
 		mean /= l;
 		
