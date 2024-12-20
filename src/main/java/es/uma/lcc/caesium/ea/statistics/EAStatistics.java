@@ -127,6 +127,18 @@ public class EAStatistics extends Statistics {
 		return jsondata;
 	}
 
+	public JsonObject toJSONObject(int i) {
+		JsonObject json = new JsonObject();
+		json.put("run", i);
+		json.put("seed", seeds.get(i));
+		json.put("time", runtime.get(i));
+		JsonArray jsondata = new JsonArray();
+		for (Island island: islands)
+			jsondata.add(island.getStatistics().toJSONObject(i));
+		json.put("rundata", jsondata);
+		return json;
+	}
+
 	public JsonObject toJSONObject() throws JsonException {
 		JsonObject jsondata = new JsonObject();
 
@@ -135,7 +147,7 @@ public class EAStatistics extends Statistics {
 		JsonArray[] fitnesses = new JsonArray[n];
 		for (int i=0; i<n; i++)
 		{
-			JsonArray jsonRundata = (JsonArray) toJSON(i).get("rundata");
+			JsonArray jsonRundata = (JsonArray) toJSONObject(i).get("rundata");
 			JsonObject rundataObject = (JsonObject) jsonRundata.get(0);	// Suponiendo que solo hay una isla
 
 			genomes[i] = (JsonArray) rundataObject.get("genome");
@@ -155,6 +167,14 @@ public class EAStatistics extends Statistics {
 		jsondata.put("genome", genomesJson);
 		jsondata.put("fitness", fitnessesJson);
 
+		return jsondata;
+	}
+
+	public JsonArray toJSONObjectSeparatedByRuns() throws JsonException {
+		JsonArray jsondata = new JsonArray();
+		int n = seeds.size();
+		for (int i=0; i<n; i++)
+			jsondata.add(toJSONObject(i));
 		return jsondata;
 	}
 
