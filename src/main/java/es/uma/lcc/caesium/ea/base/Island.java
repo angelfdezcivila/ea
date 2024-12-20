@@ -205,6 +205,7 @@ public class Island {
 
 		numEvals = mu;		
 		stats.takeStats(obj.getEvals(), population);
+		stats.takeStatsAllEvals(obj.getEvals(), population);
 	}
 
 	/**
@@ -254,6 +255,7 @@ public class Island {
 			migrate.send(population);
 			// take stats -----------------------------------------------------
 			stats.takeStats(obj.getEvals(), population);
+			stats.takeStatsAllEvals(obj.getEvals(), population);
 		}
 		return isActive();
 	}

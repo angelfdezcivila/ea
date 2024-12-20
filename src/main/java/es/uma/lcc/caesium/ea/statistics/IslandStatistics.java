@@ -158,7 +158,9 @@ public class IslandStatistics extends Statistics {
 		JsonArray jsondiv = new JsonArray();
 		JsonArray jsonIndividual = new JsonArray();
 		List<StatsEntryAllEvals> data = statsAllEvals.get(i);
+//		List<StatsEntry> data = stats.get(i);
 		for (StatsEntryAllEvals s: data) {
+//		for (StatsEntry s: data) {
 			jsonevals.add(s.evals());
 //			jsonbest.add(s.best());
 			jsonfitness.add(s.best().getFitness());
